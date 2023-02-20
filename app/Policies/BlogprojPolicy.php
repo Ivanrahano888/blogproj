@@ -45,7 +45,7 @@ class BlogprojPolicy
      */
     public function delete(User $user, Blogproj $blogproj): bool
     {
-        //
+        return $this->update($user, $blogproj);
     }
 
     /**
