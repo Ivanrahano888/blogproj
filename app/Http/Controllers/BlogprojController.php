@@ -6,15 +6,19 @@ use App\Models\blogproj;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class BlogprojController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(): View
     {
-        //
+        return view('blogproj.index', [
+            'blogproj' => Blogproj::with('user')->latest()->get(),
+        ]);
+        
     }
 
     /**
@@ -23,14 +27,20 @@ class BlogprojController extends Controller
     public function create(): Response
     {
         //
-    }
+}
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            'message' => 'required|string|max:255',
+        ]);
+ 
+        $request->user()->blogproj()->create($validated);
+ 
+        return redirect(route('blogproj.index'));
     }
 
     /**
