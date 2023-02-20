@@ -2,7 +2,9 @@
 
 namespace App\Notifications;
 
+use App\Models\Blogproj;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -14,7 +16,7 @@ class NewBlogproj extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(public Blogproj $blogproj)
     {
         //
     }
@@ -35,8 +37,11 @@ class NewBlogproj extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+        ->subject("New Blogproj from {$this->blogproj->user->name}")
+        ->greeting("New Blogproj from {$this->blogproj->user->name}")
+        ->line(Str::limit($this->blogproj->message, 50))
+        ->action('Go to Blogprojer', url('/'))
+                    
                     ->line('Thank you for using our application!');
     }
 
