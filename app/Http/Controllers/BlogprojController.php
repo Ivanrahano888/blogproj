@@ -88,6 +88,6 @@ class BlogprojController extends Controller
  
         $blogproj->delete();
  
-        return redirect(route('blogprojs.index'));
+        return redirect(route('blogproj.index'));
     }
 }
