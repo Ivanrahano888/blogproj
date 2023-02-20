@@ -76,7 +76,7 @@ class BlogprojController extends Controller
  
         $blogproj->update($validated);
  
-        return redirect(route('blogprojs.index'));
+        return redirect(route('blogproj.index'));
     }
 
     /**
