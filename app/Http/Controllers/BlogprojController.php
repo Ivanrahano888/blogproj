@@ -54,9 +54,13 @@ class BlogprojController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(blogproj $blogproj): Response
+    public function edit(blogproj $blogproj): View
     {
-        //
+        $this->authorize('update', $blogproj);
+ 
+        return view('blogproj.edit', [
+            'blogproj' => $blogproj,
+        ]);
     }
 
     /**
@@ -64,7 +68,15 @@ class BlogprojController extends Controller
      */
     public function update(Request $request, blogproj $blogproj): RedirectResponse
     {
-        //
+        $this->authorize('update', $blogproj);
+ 
+        $validated = $request->validate([
+            'message' => 'required|string|max:255',
+        ]);
+ 
+        $blogproj->update($validated);
+ 
+        return redirect(route('blogprojs.index'));
     }
 
     /**
